@@ -1,2 +1,0 @@
-# qxcore
-qxcore
