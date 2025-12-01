@@ -1,0 +1,39 @@
+@PACKAGE_INIT@
+
+include(CMakeFindDependencyMacro)
+
+# 查找依赖
+find_dependency(absl REQUIRED)
+
+if(QXCORE_ENABLE_LOG_SPDLOG)
+    find_dependency(spdlog REQUIRED)
+endif()
+
+if(QXCORE_ENABLE_LOG_GLOG)
+    find_dependency(glog REQUIRED)
+endif()
+
+# 包含目标文件
+include("${CMAKE_CURRENT_LIST_DIR}/QXCoreTargets.cmake")
+
+# 设置变量
+set(QXCore_FOUND TRUE)
+set(QXCore_VERSION "@PROJECT_VERSION@")
+set(QXCore_ENABLE_LOG_SPDLOG @QXCORE_ENABLE_LOG_SPDLOG@)
+set(QXCore_ENABLE_LOG_GLOG @QXCORE_ENABLE_LOG_GLOG@)
+
+# 检查组件
+macro(QXCore_check_component component)
+    if(QXCORE_FIND_COMPONENTS)
+        list(FIND QXCORE_FIND_COMPONENTS ${component} _index)
+        if(_index EQUAL -1)
+            set(QXCore_${component}_FOUND FALSE)
+        else()
+            set(QXCore_${component}_FOUND TRUE)
+        endif()
+    else()
+        set(QXCore_${component}_FOUND TRUE)
+    endif()
+endmacro()
+
+QXCore_check_component(log)

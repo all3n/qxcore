@@ -1,0 +1,43 @@
+{
+  "version": 3,
+  "configurePresets": [
+    {
+      "name": "zig-linux",
+      "displayName": "Zig Linux (x86_64)",
+      "description": "Build for Linux using Zig",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/linux-x64",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "zig",
+        "CMAKE_C_COMPILER_ARG1": "cc;-target;x86_64-linux-gnu",
+        "CMAKE_CXX_COMPILER": "zig",
+        "CMAKE_CXX_COMPILER_ARG1": "c++;-target;x86_64-linux-gnu",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    },
+    {
+      "name": "zig-windows",
+      "displayName": "Zig Windows (x86_64)",
+      "description": "Build for Windows using Zig",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/windows",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "zig",
+        "CMAKE_C_COMPILER_ARG1": "cc;-target;x86_64-windows-gnu",
+        "CMAKE_CXX_COMPILER": "zig",
+        "CMAKE_CXX_COMPILER_ARG1": "c++;-target;x86_64-windows-gnu",
+        "CMAKE_BUILD_TYPE": "Release"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "zig-linux",
+      "configurePreset": "zig-linux"
+    },
+    {
+      "name": "zig-windows",
+      "configurePreset": "zig-windows"
+    }
+  ]
+}
