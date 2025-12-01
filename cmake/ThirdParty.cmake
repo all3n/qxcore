@@ -58,8 +58,14 @@ macro(add_third_party_dependency NAME SOURCE_DIR SYSTEM_NAME BUNDLED_TARGET)
         endif()
     endif()
     
-    # 导出目标
-    set(${NAME}_TARGET ${NAME} PARENT_SCOPE)
+    # 导出目标（只在有父作用域时设置）
+    if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+        # 在顶层 CMakeLists.txt 中，直接设置变量
+        set(${NAME}_TARGET ${NAME})
+    else()
+        # 在子目录中，设置到父作用域
+        set(${NAME}_TARGET ${NAME} PARENT_SCOPE)
+    endif()
 endmacro()
 
 # 宏：配置第三方依赖的交叉编译支持

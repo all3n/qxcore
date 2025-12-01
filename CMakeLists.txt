@@ -6,6 +6,32 @@ project(QXCore
     DESCRIPTION "High-performance C++ quantitative computing framework"
     LANGUAGES CXX
 )
+if(NOT DEFINED USE_ZIG)
+    set(USE_ZIG OFF)
+else()
+    set(USING_PRESET TRUE)
+endif()
+
+if(NOT USING_PRESET)
+    if(NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE "Debug" CACHE STRING "Choose the type of build")
+    endif()
+endif()
+message(STATUS "USE_ZIG = ${USE_ZIG}")
+
+if(NOT CMAKE_GENERATOR)
+    # 尝试自动选择生成器
+    find_program(NINJA_EXE ninja)
+    if(NINJA_EXE)
+        set(CMAKE_GENERATOR "Ninja" CACHE STRING "Generator" FORCE)
+    else()
+        set(CMAKE_GENERATOR "Unix Makefiles" CACHE STRING "Generator" FORCE)
+    endif()
+endif()
+
+if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/cmake/zig-toolchain.cmake)
+    include(${CMAKE_CURRENT_SOURCE_DIR}/cmake/zig-toolchain.cmake)
+endif()
 
 # C++ 标准设置
 set(CMAKE_CXX_STANDARD 17)

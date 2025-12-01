@@ -2,42 +2,122 @@
   "version": 3,
   "configurePresets": [
     {
-      "name": "zig-linux",
-      "displayName": "Zig Linux (x86_64)",
-      "description": "Build for Linux using Zig",
+      "name": "default",
+      "displayName": "Default Debug",
+      "description": "Default Build using native toolchain (Debug)",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/linux-x64",
+      "binaryDir": "${sourceDir}/build/default-debug",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "USE_ZIG": "OFF"
+      }
+    },
+    {
+      "name": "default-release",
+      "displayName": "Default Release",
+      "description": "Default Build using native toolchain (Release)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/default-release",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "USE_ZIG": "OFF"
+      }
+    },
+    {
+      "name": "zig-linux-debug",
+      "displayName": "Zig Linux (x86_64) Debug",
+      "description": "Build for Linux using Zig (Debug)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/linux-x64-debug",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "zig",
         "CMAKE_C_COMPILER_ARG1": "cc;-target;x86_64-linux-gnu",
         "CMAKE_CXX_COMPILER": "zig",
         "CMAKE_CXX_COMPILER_ARG1": "c++;-target;x86_64-linux-gnu",
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "USE_ZIG": "ON",
+        "ZIG_TARGET": "x86_64-linux-gnu"
       }
     },
     {
-      "name": "zig-windows",
-      "displayName": "Zig Windows (x86_64)",
-      "description": "Build for Windows using Zig",
+      "name": "zig-linux-release",
+      "displayName": "Zig Linux (x86_64) Release",
+      "description": "Build for Linux using Zig (Release)",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build/windows",
+      "binaryDir": "${sourceDir}/build/linux-x64-release",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "zig",
+        "CMAKE_C_COMPILER_ARG1": "cc;-target;x86_64-linux-gnu",
+        "CMAKE_CXX_COMPILER": "zig",
+        "CMAKE_CXX_COMPILER_ARG1": "c++;-target;x86_64-linux-gnu",
+        "CMAKE_BUILD_TYPE": "Release",
+        "USE_ZIG": "ON",
+        "ZIG_TARGET": "x86_64-linux-gnu"
+      }
+    },
+    {
+      "name": "zig-windows-debug",
+      "displayName": "Zig Windows (x86_64) Debug",
+      "description": "Build for Windows using Zig (Debug)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/windows-debug",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "zig",
         "CMAKE_C_COMPILER_ARG1": "cc;-target;x86_64-windows-gnu",
         "CMAKE_CXX_COMPILER": "zig",
         "CMAKE_CXX_COMPILER_ARG1": "c++;-target;x86_64-windows-gnu",
-        "CMAKE_BUILD_TYPE": "Release"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "USE_ZIG": "ON",
+        "ZIG_TARGET": "x86_64-windows-gnu"
+      }
+    },
+    {
+      "name": "zig-windows-release",
+      "displayName": "Zig Windows (x86_64) Release",
+      "description": "Build for Windows using Zig (Release)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/windows-release",
+      "cacheVariables": {
+        "CMAKE_C_COMPILER": "zig",
+        "CMAKE_C_COMPILER_ARG1": "cc;-target;x86_64-windows-gnu",
+        "CMAKE_CXX_COMPILER": "zig",
+        "CMAKE_CXX_COMPILER_ARG1": "c++;-target;x86_64-windows-gnu",
+        "CMAKE_BUILD_TYPE": "Release",
+        "USE_ZIG": "ON",
+        "ZIG_TARGET": "x86_64-windows-gnu"
       }
     }
   ],
   "buildPresets": [
     {
-      "name": "zig-linux",
-      "configurePreset": "zig-linux"
+      "name": "default",
+      "configurePreset": "default"
     },
     {
-      "name": "zig-windows",
-      "configurePreset": "zig-windows"
+      "name": "default-release",
+      "configurePreset": "default-release"
+    },
+    {
+      "name": "zig-linux-debug",
+      "configurePreset": "zig-linux-debug"
+    },
+    {
+      "name": "zig-linux-release",
+      "configurePreset": "zig-linux-release"
+    },
+    {
+      "name": "zig-windows-debug",
+      "configurePreset": "zig-windows-debug"
+    },
+    {
+      "name": "zig-windows-release",
+      "configurePreset": "zig-windows-release"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "default",
+      "configurePreset": "default"
     }
   ]
 }

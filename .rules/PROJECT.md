@@ -575,6 +575,10 @@ endif()
 ---
 
 
+## 默认debug测试
+```
+cmake --preset default && cmake --build --preset default
+```
 
 ## summary
 1. 每个工具完成功能 放到summary 中 
