@@ -1,5 +1,8 @@
 /build
+/build-cross
+/build-cross*
 /dist
+*.log
 *.o
 .cache
 .DS_Store

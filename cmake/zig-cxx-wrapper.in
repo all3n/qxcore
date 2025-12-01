@@ -2,12 +2,12 @@
 # Zig C++ 编译器包装器
 
 # 添加编译标志来处理交叉编译问题
-EXTRA_FLAGS="-Wno-nullability-extension -Wno-gnu-zero-variadic-macro-arguments -Wno-c++20-extensions -Wno-gcc-compat"
+EXTRA_FLAGS="-Wno-nullability-extension -Wno-gnu-zero-variadic-macro-arguments -Wno-c++20-extensions -Wno-gcc-compat -Wno-unknown-pragmas -Wno-error"
 
 # 过滤掉不兼容的标志
 FILTERED_ARGS=()
 for arg in "$@"; do
-    if [[ "$arg" != "-stdlib=libc++" ]]; then
+    if [[ "$arg" != "-stdlib=libc++" && "$arg" != "-Werror" ]]; then
         FILTERED_ARGS+=("$arg")
     fi
 done

@@ -18,6 +18,16 @@ if(MSVC)
     add_compile_options(/W4 /WX)
 else()
     add_compile_options(-Wall -Wextra -Werror -pedantic)
+    
+    # Apple Clang 特定设置
+    if(CMAKE_CXX_COMPILER_ID MATCHES "AppleClang")
+        # 禁用 enable_if 警告，这是 Apple Clang 的已知问题
+        add_compile_options(-Wno-gcc-compat)
+        # 禁用其他 Apple Clang 特有的警告
+        add_compile_options(-Wno-unused-command-line-argument)
+        # 禁用 GNU 零参数可变宏警告
+        add_compile_options(-Wno-gnu-zero-variadic-macro-arguments)
+    endif()
 endif()
 
 # 构建类型
@@ -55,16 +65,19 @@ endif()
 include_directories(include)
 
 # 添加第三方依赖
-add_third_party_dependency(absl third_party/abseil-cpp absl absl REQUIRED)
+add_third_party_dependency(absl "third_party/abseil-cpp" absl absl REQUIRED)
 
 # 日志后端依赖
 if(QXCORE_ENABLE_LOG_SPDLOG)
-    add_third_party_dependency(spdlog third_party/spdlog spdlog spdlog)
+    add_third_party_dependency(spdlog "third_party/spdlog" spdlog spdlog)
 endif()
 
 if(QXCORE_ENABLE_LOG_GLOG)
-    add_third_party_dependency(glog third_party/glog glog glog)
+    add_third_party_dependency(glog "third_party/glog" glog glog)
 endif()
+
+# fmt 依赖（用于格式化）
+add_third_party_dependency(fmt "third_party/fmt" fmt fmt)
 
 # 验证第三方依赖
 validate_third_party_dependencies()

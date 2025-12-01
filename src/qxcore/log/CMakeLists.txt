@@ -13,8 +13,12 @@ set(QXCORE_LOG_SOURCES
     log_level.cc
     log.cc
     spdlog_backend.cc
-    glog_backend.cc
 )
+
+# 根据配置添加后端源文件
+if(QXCORE_ENABLE_LOG_GLOG)
+    list(APPEND QXCORE_LOG_SOURCES glog_backend.cc)
+endif()
 
 # 创建日志库
 add_library(qxcore_log STATIC ${QXCORE_LOG_SOURCES})

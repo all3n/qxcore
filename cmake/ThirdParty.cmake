@@ -105,5 +105,9 @@ macro(validate_third_party_dependencies)
         message(FATAL_ERROR "absl target not found")
     endif()
     
+    if(NOT TARGET fmt)
+        message(FATAL_ERROR "fmt target not found")
+    endif()
+    
     message(STATUS "All third party dependencies validated successfully")
 endmacro()

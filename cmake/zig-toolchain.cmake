@@ -69,6 +69,14 @@ execute_process(
 set(CMAKE_C_COMPILER ${COMPILER_WRAPPER_DIR}/zig-cc)
 set(CMAKE_CXX_COMPILER ${COMPILER_WRAPPER_DIR}/zig-cxx)
 
+# 设置 ar 工具
+set(CMAKE_AR "${ZIG_EXECUTABLE} ar")
+set(CMAKE_RANLIB "${ZIG_EXECUTABLE} ranlib")
+
+# 设置静态库创建命令
+set(CMAKE_C_CREATE_STATIC_LIBRARY "${CMAKE_AR} rcs <TARGET> <OBJECTS>")
+set(CMAKE_CXX_CREATE_STATIC_LIBRARY "${CMAKE_AR} rcs <TARGET> <OBJECTS>")
+
 # 设置编译标志
 set(CMAKE_C_FLAGS_INIT "")
 set(CMAKE_CXX_FLAGS_INIT "-std=c++17")
@@ -82,14 +90,22 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 if(ZIG_TARGET MATCHES "windows")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -D_CRT_SECURE_NO_WARNINGS")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static")
+    # Windows 特定的宏定义
+    add_definitions(-DHAS_STRPTIME=0)
+    # 抑制未使用参数警告
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-unused-parameter")
 elseif(ZIG_TARGET MATCHES "linux")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -static-libgcc -static-libstdc++")
+    # Linux 特定的宏定义
+    add_definitions(-DHAS_STRPTIME=1)
 elseif(ZIG_TARGET MATCHES "darwin|macos")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
+    # macOS 特定的宏定义
+    add_definitions(-DHAS_STRPTIME=1)
 endif()
 
 # 添加通用警告抑制
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gcc-compat")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-gcc-compat -Wno-unknown-pragmas -Wno-error")
 
 # 设置库查找路径
 set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)

@@ -56,14 +56,14 @@ absl::Status GlogBackend::set_level(LogLevel level) {
   try {
     // glog 使用 FLAGS_minloglevel 控制最小日志级别
     // 0=INFO, 1=WARNING, 2=ERROR, 3=FATAL
-    int glog_level = ToGlogLevel(level);
+    google::LogSeverity glog_level = static_cast<google::LogSeverity>(ToGlogLevel(level));
     google::SetLogDestination(glog_level, 
         absl::StrCat(logger_name_, ".log").c_str());
     
     current_level_ = level;
     return absl::OkStatus();
   } catch (const std::exception& e) {
-    return absl::InternalError(fmt::format("Failed to set log level: {}", e.what()));
+    return absl::InternalError(absl::StrFormat("Failed to set log level: %s", e.what()));
   }
 }
 
