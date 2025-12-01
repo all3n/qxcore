@@ -34,20 +34,40 @@ option(QXCORE_ENABLE_LOG_GLOG "Enable glog backend" OFF)
 # CMake 模块路径
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
+# 包含第三方依赖管理模块
+include(ThirdParty)
+
+# 配置交叉编译支持
+configure_third_party_cross_compilation()
+
+# 为 Zig 交叉编译强制设置 Abseil C++ 标准
+if(CMAKE_TOOLCHAIN_FILE MATCHES "zig-toolchain")
+    set(ABSL_CXX_STANDARD 17 CACHE STRING "C++ standard for Abseil")
+    set(ABSL_CXX_STANDARD_REQUIRED ON CACHE BOOL "Require C++17 for Abseil")
+    set(ABSL_CXX_EXTENSIONS OFF CACHE BOOL "Disable C++ extensions for Abseil")
+    
+    # 跳过 Abseil 的 C++ 标准检测
+    set(ABSL_INTERNAL_AT_LEAST_CXX17 1 CACHE INTERNAL "Skip C++17 check")
+    set(ABSL_INTERNAL_AT_LEAST_CXX20 0 CACHE INTERNAL "Skip C++20 check")
+endif()
+
 # 包含目录
 include_directories(include)
 
-# 查找依赖包
-find_package(absl REQUIRED)
+# 添加第三方依赖
+add_third_party_dependency(absl third_party/abseil-cpp absl absl REQUIRED)
 
 # 日志后端依赖
 if(QXCORE_ENABLE_LOG_SPDLOG)
-    find_package(spdlog REQUIRED)
+    add_third_party_dependency(spdlog third_party/spdlog spdlog spdlog)
 endif()
 
 if(QXCORE_ENABLE_LOG_GLOG)
-    find_package(glog REQUIRED)
+    add_third_party_dependency(glog third_party/glog glog glog)
 endif()
+
+# 验证第三方依赖
+validate_third_party_dependencies()
 
 # 添加子目录
 add_subdirectory(src)

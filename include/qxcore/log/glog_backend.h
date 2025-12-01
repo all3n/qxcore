@@ -18,7 +18,7 @@
 #include <string>
 #include <absl/strings/string_view.h>
 #include <absl/status/status.h>
-#include <fmt/core.h>
+#include <absl/strings/str_format.h>
 #include "qxcore/log/log_level.h"
 
 namespace qxcore {
@@ -65,8 +65,8 @@ class GlogBackend {
       if constexpr (sizeof...(args) == 0) {
         log(level, fmt_str);
       } else {
-        // 对于有参数的情况，使用 fmt 格式化
-        std::string formatted = fmt::format(fmt_str, std::forward<Args>(args)...);
+        // 对于有参数的情况，使用 absl 格式化
+        std::string formatted = absl::StrFormat(fmt_str, std::forward<Args>(args)...);
         log(level, formatted);
       }
     } catch (...) {

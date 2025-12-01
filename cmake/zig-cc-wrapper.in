@@ -1,0 +1,4 @@
+#!/bin/bash
+# Zig C 编译器包装器
+
+exec "@ZIG_EXECUTABLE@" cc -target @ZIG_TARGET@ "$@"

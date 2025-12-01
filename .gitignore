@@ -2,3 +2,4 @@
 /dist
 *.o
 .cache
+.DS_Store

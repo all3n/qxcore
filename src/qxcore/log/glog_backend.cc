@@ -14,8 +14,8 @@
 
 #include "qxcore/log/glog_backend.h"
 #include <glog/logging.h>
-#include <fmt/core.h>
 #include <absl/strings/str_cat.h>
+#include <absl/strings/str_format.h>
 
 namespace qxcore {
 namespace log {
@@ -44,7 +44,7 @@ absl::Status GlogBackend::init(const std::string& name, LogLevel level) {
 
     return absl::OkStatus();
   } catch (const std::exception& e) {
-    return absl::InternalError(fmt::format("Failed to initialize glog: {}", e.what()));
+    return absl::InternalError(absl::StrFormat("Failed to initialize glog: %s", e.what()));
   }
 }
 

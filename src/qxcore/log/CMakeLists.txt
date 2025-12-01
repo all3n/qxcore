@@ -34,7 +34,6 @@ target_link_libraries(qxcore_log
         absl::base
         absl::strings
         absl::status
-        fmt::fmt
 )
 
 # 根据配置添加后端依赖
