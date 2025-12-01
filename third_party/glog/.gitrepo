@@ -1,0 +1,12 @@
+; DO NOT EDIT (unless you know what you are doing)
+;
+; This subdirectory is a git "subrepo", and this file is maintained by the
+; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
+;
+[subrepo]
+	remote = https://github.com/google/glog.git
+	branch = master
+	commit = 53d58e4531c7c90f71ddab503d915e027432447a
+	parent = f22aaa99a88501cc727fc9b8183dd3a3e7361464
+	method = merge
+	cmdver = 0.4.9
