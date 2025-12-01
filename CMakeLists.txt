@@ -6,6 +6,22 @@ project(QXCore
     DESCRIPTION "High-performance C++ quantitative computing framework"
     LANGUAGES CXX
 )
+
+option(DOWNLOAD_NINJA "Download Ninja automatically" ON)
+option(USE_GITHUB_PROXY "Use GitHub proxy mirror" ON)
+
+if(DOWNLOAD_NINJA)
+    # 包含下载模块
+    include(cmake/DownloadNinja.cmake)
+    
+    # 调用下载函数
+    download_ninja(
+        VERSION "1.13.2"
+        USE_GITHUB_PROXY ${USE_GITHUB_PROXY}
+    )
+endif()
+
+
 if(NOT DEFINED USE_ZIG)
     set(USE_ZIG OFF)
 else()
@@ -104,6 +120,11 @@ endif()
 
 # fmt 依赖（用于格式化）
 add_third_party_dependency(fmt "third_party/fmt" fmt fmt)
+
+# GoogleTest 依赖（用于测试）
+if(QXCORE_BUILD_TESTS)
+    add_third_party_dependency(googletest "third_party/googletest" GTest GTest)
+endif()
 
 # 验证第三方依赖
 validate_third_party_dependencies()
